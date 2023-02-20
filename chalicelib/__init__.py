@@ -1,0 +1,5 @@
+API_KEY = ""
+SECRET_KEY = ""
+TV_KEY = ""
+BALANCE = 0
+ALLOWANCE = 0
