@@ -1,45 +1,78 @@
-# webhook-trade-bot
-# A simple webhook triggered buy/sell bot running on AWS Flask with python chalice.
-# Uses the alpaca-trade-api python lib to push orders.
-# Default is paper trade. If you want to do real just change the endpoint.
-# Set your maximum balance and the allowance you want for trades inside __init__
-# Also remember to set a TV_Key to authenticate your tradingview requests.
 
-Install:
----
-conda update conda
-conda create -n alert-bot python=3.9
-conda activate alert-bot
-python -m pip install chalice alpaca-trade-api
+<h3 align="center">webhook-trade-bot</h3>
 
-Test:
----
-# cd to project directory
-chalice local
-# This will run a local chalice on http://localhost:8000
-# Send requests with the following template to http://localhost:8000/sprtrnd
-# Below is what you would send from tradingview. Just create an alert and paste
-# template in the alert message. Remember the TV_KEY you created or the requests will return an empty list.
-# It would be preferable set to return an error.
-
-# random values testing example with insomnia:
-{"TVkey": "YourTVKey", "asset_type": "crypto", "action": "sell", "open": 222, "high": 233, "low": 210, "close": 1706, "exchange": "CBSE", "ticker": "ETHUSD", "volume": 11524, "time": "1830", "timenow": "1831"}
+  <p align="center">
+    A simple webhook triggered buy/sell bot running on AWS Flask with python chalice.
+    Uses the alpaca-trade-api python lib to push orders.
+    Default is paper trade. If you want to do real just change the endpoint.
+    Set your maximum balance and the allowance you want for trades inside __init__ 
+    Also remember to set a TV_Key to authenticate your tradingview requests.
+    <br />
+  </p>
+</div>
 
 
-# Run:
-# create AWS account if you dont have one
-# set IAM policy for lambda, get keys
-# set keys in /.aws/config
-# windows : C:\Users\username\.aws\config
-# Then inside project directory to upload the lambda
-chalice deploy
+<!-- GETTING STARTED -->
 
-# get the url and append /sprtrnd
-# Paste it in the alert webhook notification field.
-# Add template to alert message
+### Prerequisites
 
-Tradingview Webhook alert template:
-{
+Create an alpaca trading account.
+Default is paper trade. If you want to do real just change the endpoint inside app.py
+Set your maximum balance and the allowance you want for trades inside __init__
+Also remember to set a TV_Key to authenticate your tradingview requests.
+
+### Installation
+
+1. Get your API Keys from AWS, 
+2. Clone the repo
+   ```sh
+   git clone https://github.com/softee-p/webhook-trade-bot.git
+   ```
+3. Install packages
+   ```sh
+   conda update conda
+   conda create -n alert-bot python=3.9
+   conda activate alert-bot
+   python -m pip install chalice alpaca-trade-api
+   ```
+4. Enter your AWS API key
+   ```sh
+   /.aws/config
+   ```
+   *Windows
+   ```sh
+   /C:\Users\user\.aws\config
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- USAGE EXAMPLES -->
+
+*Test
+1. cd to project directory
+2. start chalice locally
+   ```sh
+   chalice local
+   ```
+3. Send requests using Insomnia with the following template to http://localhost:8000/sprtrnd
+   ```sh
+   {"TVkey": "YourTVKey", "asset_type": "crypto", "action": "sell", "open": 222, "high": 233, "low": 210, "close": 1706, "exchange": "CBSE", "ticker": "ETHUSD", "volume": 11524, "time": "1830", "timenow": "1831"}
+   ```
+   *Just random numbers for example
+
+
+*Use
+1. upload to aws lambda
+   ```sh
+   chalice deploy
+   ```
+2. get the url and append /sprtrnd
+3. inside tradingview, paste in the alert webhook notification field.
+4. add following template to alert message body
+   ```js
+   {
     "TVkey": "SomeKeyToAuthenticate",
     "asset_type": "crypto",
     #           OR "stock"
@@ -53,4 +86,5 @@ Tradingview Webhook alert template:
     "volume": {{volume}},
     "time": "{{time}}",
     "timenow": "{{timenow}}"
-}
+    }
+    ```
